@@ -1,0 +1,56 @@
+<div class="product">
+  <div class="product-details">
+    <!-- <img
+            src="{{ '/assets/images/robot-parts/' + product.imageName }}"
+            alt={{product.name}}
+          /> -->
+    <!-- <img
+            [src]="'/assets/images/robot-parts/' + product.imageName"
+            [alt]="product.name"
+          /> -->
+    <img [src]="getImageUrl(product)" [alt]="product.name" />
+    <div class="product-info">
+      <div class="name">{{ product.name }}</div>
+      <div class="description">{{ product.description }}</div>
+      <div class="category">Part Type: {{ product.category }}</div>
+    </div>
+  </div>
+  <div class="price">
+    <!-- Adding css style binding -->
+    <!-- [style.color] = "product.discount > 0? 'red': ''" -->
+    <!-- [ngStyle]="{ color: product.discount > 0 ? 'red' : '' }" -->
+    <div
+      [ngClass]="getDiscountedClasses(product)"
+    >
+      {{ product.price | currency : "USD" }}
+    </div>
+
+    <!-- To render both product price and discount using ngClass with function -->
+    <!--   <div [ngClass]="getDiscountedClasses(product)"> You can still include css class like class="bold"  
+            {{ product.price | currency : "USD" }}
+          </div>-->
+
+    <!-- To render both product price and discount using ngClass with inline condition -->
+    <!-- <div [ngClass]="{ strike: product.discount > 0 }">
+            {{ product.price | currency : "USD" }}
+          </div> -->
+
+    <!-- To render both product price and discount using ordinary class binding -->
+    <!-- <div [class.strike]="product.discount > 0">{{ product.price | currency:'USD' }}</div> -->
+
+    <!-- To conditionally render products if they have discounts -->
+    <!-- <div *ngIf="product.discount === 0">{{ product.price | currency:'USD' }}</div> -->
+
+    <!--Alternatively you can use ==>  <div [hidden]="product.discount > 0">${{ product.price.toFixed(2) }}</div> -->
+    <div class="discount" *ngIf="product.discount > 0">
+      <!-- Using currency pipe -->
+      {{ product.price * (1 - product.discount) | currency : "GBP" }}
+
+      <!-- 
+              Using normal method to show currency
+              $ {{(product.price * (1 - product.discount)).toFixed(2)}}
+             -->
+    </div>
+    <button class="cta" (click)="buyButtonClicked(product)">Buy</button>
+  </div>
+</div>
